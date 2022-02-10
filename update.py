@@ -42,7 +42,7 @@ def readconfig() -> list:
 
 def update():
 
-    PATH = readconfig()[0]
+    PATH: str = readconfig()[0] + "/simple-workspaces"
     with open(PATH, 'r') as f:
         binary = f.read().split("\n")
 
@@ -83,13 +83,13 @@ def listinfo():
         print(f"\n{BOLD}{BLUE}Number of comma")
 
 def save(workspaces: list[workspace]) -> None:
-    PATH = readconfig()[0]
+    PATH: str = readconfig()[0] + "/simple-workspaces"
     to_write: list = []
 
     for workspace in workspaces:
         to_write.append(f"@{workspace.id}\n")
         for command in workspace.commands:
-            to_write.append("{command}")
+            to_write.append(command + "\n")
 
     with open(PATH, "w") as f:
         f.write("\n".join(to_write))

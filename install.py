@@ -4,62 +4,83 @@
 # ───────────────────────────────────────────────────────────────────────
 #
 
+import os
+import subprocess
+import sys
 
-from os import getcwd, path, mkdir
+if os.geteuid() == 0:
 
-HEADER = '\033[95m'
-BLUE = '\033[94m'
-ORANGE = '\033[93m'
-FAIL = '\033[91m'
-ENDC = '\033[0m'
-BOLD = '\033[1m'
-UNDERLINE = '\033[4m'
+    HEADER = '\033[95m'
+    BLUE = '\033[94m'
+    ORANGE = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
 
-print(f"{BOLD}{UNDERLINE}{ORANGE}<========== Installing... ==========>{ENDC}")
-print(f"{BOLD}Where do you want to install simple-workspaces?{ENDC}\n\n\t1. /bin <== Recommended\n\t2. Other")
+    print(f"{BOLD}{UNDERLINE}{ORANGE}<========== Installing... ==========>{ENDC}")
+    print(f"{BOLD}Where do you want to install simple-workspaces?{ENDC}\n\n\t1. /bin <== Recommended\n\t2. Other")
 
-inp: str = input(f"{BOLD}Enter the number of your choice (Default is 1): {ENDC}")
+    inp: str = input(f"{BOLD}Enter the number of your choice (Default is 1): {ENDC}")
 
-if inp == "2":
-    PATH = input(f"{BOLD}Enter the path where you want to install simple-workspaces (You can edit it in the config/config file later and running update.py): {ENDC}")
+    if inp == "2":
+        PATH = input(f"{BOLD}Enter the path where you want to install simple-workspaces (You can edit it in the config/config file later and running update.py): {ENDC}")
+    else:
+        PATH = "/bin"
+
+    print(f"\n\n{BOLD}Where do you want to save the workspaces?{ENDC}\n\n\t1. {os.getcwd()}/workspaces <== Recommended\n\n\t2. Other")
+    inp = input(f"\n\n{BOLD}Enter the number of your choice (Default is 1: )")
+
+    if inp == "2":
+        print(f"{FAIL}{BOLD}⚠️ WARNING:{ENDC}{FAIL} Just enter the DIRECTORY, {BOLD}not the file{ENDC}")
+        workspace_path = input(f"{BOLD}Enter the path where you want to save the workspaces: {ENDC}")
+
+        if not os.path.exists(workspace_path):
+            print(f"{BLUE}Path does not exit, creating {workspace_path}")
+            os.mkdir(workspace_path)
+    else:
+        workspace_path = os.getcwd()
+
+    # If the directory config does not exist, create it.
+    try:
+        os.mkdir("config")
+    except:
+        pass
+
+    try:
+        open("config/config")
+    except:
+        open('config/config', 'x')
+        print(f"{BLUE}Creating config/config file!{ENDC}")
+
+    with open("config/config", "w") as f:
+        data = f.write(f"PATH={PATH}\nWORKSPACES_PATH={workspace_path}")
+
+    print("{BOLD}Installing binary...{ENDC}")
+
+    # First, we create the binary
+
+    print(f"{ORANGE}Creating binary...{ENDC}")
+    with open(f"{PATH}/simple-workspaces", "w") as f:
+        f.write("")
+
+    # And then we make it executable
+    print(f"{ORANGE}Making it executable...{ENDC}")
+    os.system(f"sudo chmod +x {PATH}/simple-workspaces")
+
+    # Now, we create the workspaces directory
+    try:
+        os.mkdir(workspace_path)
+    except:
+        try:
+            open(f"{workspace_path}/workspaces")
+        except:
+            print(f"{FAIL}ERROR: Cannot open directory{ENDC}")
+            exit()
+        else:
+            with open(f"{workspace_path}/workspaces", "w") as f:
+                f.write("# This is the workspaces file!\n# You can edit this manually, but I don't recommend it, you can use the command 'simple-workspaces' to see a help message.\n\n# If you want to manually edit this file, just use a @ symbol, then a number, the id of the workspace id, then just add the commands you want to run every time you run the command.\n\n#<======EXAMPLE======>\n\n# # This is my workspace for programming!\n\n# @1 google-chrome-stable\n# code-insider\n# bash\n\n#<======END OF EXAMPLE======>\n\n# WARNING! Do not use the '#' symbol at the start of each line, these are comments, if you want your code executed, do not put a '#' symbol!")
+
+    print(f"{BOLD}{HEADER}<========== Installed! ==========>{ENDC}")
 else:
-    PATH = "/bin"
-
-print(f"\n\n{BOLD}Where do you want to save the workspaces?{ENDC}\n\n\t1. {getcwd()}/workspaces\n\n\t2. Other")
-inp = input(f"\n\n{BOLD}Enter the number of your choice (Default is 1: )")
-
-if inp == "2":
-    print(f"{FAIL}{BOLD}⚠️ WARNING:{ENDC}{FAIL} Just enter the DIRECTORY, {BOLD}not the file{ENDC}")
-    workspace_path = input(f"{BOLD}Enter the path where you want to save the workspaces: {ENDC}")
-
-    if not path.exists(workspace_path):
-        print(f"{BLUE}Path does not exit, creating {workspace_path}")
-        mkdir(workspace_path)
-else:
-    workspace_path = getcwd()
-
-# If the directory config does not exist, create it.
-try:
-    mkdir("config")
-except:
-    pass
-
-try:
-    open("config/config")
-except:
-    open('config/config', 'x')
-    print(f"{BLUE}Creating config/config file!")
-
-with open("config/config", "w") as f:
-    data = f.write(f"PATH={PATH}\nWORKSPACES_PATH={workspace_path}")
-
-try:
-    open(PATH)
-except:
-    print(f"{FAIL}ERROR: Path does not exist!")
-    exit()
-else:
-    with open("/usr/bin/simple-workspace", "x") as f:
-        f.write(f"#!/bin/sh\n\npython ~/{workspace_path}/mainscript.py $1")
-
-print(f"{BOLD}{HEADER}<========== Installed! ==========>{ENDC}")
+    subprocess.call(['sudo', 'python3'] + sys.argv)
