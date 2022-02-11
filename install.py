@@ -62,7 +62,7 @@ if os.geteuid() == 0:
 
     print(f"{ORANGE}Creating binary...{ENDC}")
     with open(f"{PATH}/simple-workspaces", "w") as f:
-        f.write("")
+        f.write(f"#!/bin/bash\npython3 {workspace_path}/mainscript.py $@")
 
     # And then we make it executable
     print(f"{ORANGE}Making it executable...{ENDC}")
@@ -75,8 +75,11 @@ if os.geteuid() == 0:
         try:
             open(f"{workspace_path}/workspaces")
         except:
-            print(f"{FAIL}ERROR: Cannot open directory{ENDC}")
-            exit()
+            try:
+                open(f"{workspace_path}/workspaces", "x")
+            except:
+                print(f"{FAIL}ERROR: Cannot open directory{ENDC}")
+                exit()
         else:
             with open(f"{workspace_path}/workspaces", "w") as f:
                 f.write("# This is the workspaces file!\n# You can edit this manually, but I don't recommend it, you can use the command 'simple-workspaces' to see a help message.\n\n# If you want to manually edit this file, just use a @ symbol, then a number, the id of the workspace id, then just add the commands you want to run every time you run the command.\n\n#<======EXAMPLE======>\n\n# # This is my workspace for programming!\n\n# @1 google-chrome-stable\n# code-insider\n# bash\n\n#<======END OF EXAMPLE======>\n\n# WARNING! Do not use the '#' symbol at the start of each line, these are comments, if you want your code executed, do not put a '#' symbol!")

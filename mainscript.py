@@ -10,7 +10,7 @@ FAIL = '\033[91m'
 
 arguments: list = [
     "list",
-    "addcommand"
+    "addcommand",
 ]
 
 # ─── MAIN ───────────────────────────────────────────────────────────────────────
@@ -50,7 +50,7 @@ Removes the workspace with the given id.
 You can manually edit the file to {B}add / edit / remove{E} workspaces, you can add comments with '#', but if you want to modify the workspaces using the program, the comments will be removed.
 """
 
-if len(argv) == 2:
+if len(argv) > 1:
     if argv[1] in arguments or argv[1].isnumeric():
 
         if argv[1].isnumeric():
@@ -83,6 +83,7 @@ if len(argv) == 2:
                     print(f"{B}Done!{E}")
                     exit()
             update.save(workspaces)
+            exit()
 
         # * Removing command from workspace
         elif argv[1] == "removecommand":
@@ -93,6 +94,7 @@ if len(argv) == 2:
                     print(f"{B}Done!{E}")
                     exit()
             update.save(workspaces)
+            exit()
         
 
         # * Listing commands
@@ -104,6 +106,7 @@ if len(argv) == 2:
                     print(f"{B}Done!{E}")
                     exit()
             update.save(workspaces)
+            exit()
             
         # * Removing workspace
         elif argv[1] == "remove":
@@ -114,6 +117,7 @@ if len(argv) == 2:
                     if workspace.id == int(argv[2]):
                         del workspace
             update.save(workspaces)
+            exit()
 
         # * Adding workspace           
         elif argv[1] == "add":
@@ -123,6 +127,7 @@ if len(argv) == 2:
                 workspaces.append(update.workspace(argv[2]))
                 print(f"{B}Done!{E}")
                 update.save(workspaces)
+
     else:
         print(helpmessage)
 else:

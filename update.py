@@ -42,7 +42,7 @@ def readconfig() -> list:
 
 def update():
 
-    PATH: str = readconfig()[0] + "/simple-workspaces"
+    PATH: str = readconfig()[1] + "/workspaces"
     with open(PATH, 'r') as f:
         binary = f.read().split("\n")
 
@@ -52,13 +52,16 @@ def update():
     workspaces: list = []
 
     for command in binary:
-        if command[0] == "#":
+        if len(command) < 1:
             continue
 
-        if command[0] == "@":
+        if command.startswith("#"):
+            continue
+
+        if command.startswith("@"):
             # * This is a workspace
             # Now we create a workspace object
-            workspaces.append(workspace(command[1]))
+            workspaces.append(workspace(command[1], []))
 
         else:
             # * This is a command
@@ -66,7 +69,6 @@ def update():
     return workspaces
 
 def listinfo():
-
     workspaces = update()
     config = readconfig()
     PATH = config[0]
@@ -74,13 +76,13 @@ def listinfo():
     print(f"\n{BOLD}{UNDERLINE}{HEADER}<========== INFO ==========>{ENDC}")
     print(f"\n{ORANGE}{BOLD}Path: {PATH}")
     print(f"{BOLD}{BLUE}Workspaces path: {WORKSPACES_PATH}") # WORKSPACES_PATH
-    print(f"{ORANGE}{BOLD}Number of workspaces: {len(workspaces)}")
-    print(f"\n{BOLD}{UNDERLINE}{HEADER}<========== WORKSPACES: ==========>{ENDC}")
+    print(f"{ORANGE}{BOLD}Number of workspaces: {len(workspaces)}\n{ENDC}")
 
     for workspace in workspaces:
-        print(f"{BOLD}{BLUE}Workspace ID: {ENDC}{workspace.id}")
-        print(f"{BOLD}{BLUE}Commands:\n\n{ENDC}{workspace.commands}")
-        print(f"\n{BOLD}{BLUE}Number of comma")
+        print(f"\n{BOLD}{UNDERLINE}{HEADER}==========> WORKSPACE {workspace.id}: <=========={ENDC}")
+        print(f"{ORANGE}<========== Commands: ==========>{ENDC}")
+        print(*workspace.commands, sep="\n")
+        print(f"{ORANGE}<=================================>{ENDC}\n\n")
 
 def save(workspaces: list[workspace]) -> None:
     PATH: str = readconfig()[0] + "/simple-workspaces"
