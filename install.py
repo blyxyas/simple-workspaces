@@ -19,14 +19,14 @@ if os.geteuid() == 0:
     UNDERLINE = '\033[4m'
 
     print(f"{BOLD}{UNDERLINE}{ORANGE}<========== Installing... ==========>{ENDC}")
-    print(f"{BOLD}Where do you want to install simple-workspaces?{ENDC}\n\n\t1. /bin <== Recommended\n\t2. Other")
+    print(f"{BOLD}Where do you want to install simple-workspaces?{ENDC}\n\n\t1. /usr/bin <== Recommended\n\t2. Other")
 
     inp: str = input(f"{BOLD}Enter the number of your choice (Default is 1): {ENDC}")
 
     if inp == "2":
         PATH = input(f"{BOLD}Enter the path where you want to install simple-workspaces (You can edit it in the config/config file later): {ENDC}")
     else:
-        PATH = "/bin"
+        PATH = "/usr/bin"
 
     print(f"\n\n{BOLD}Where do you want to save the workspaces?{ENDC}\n\n\t1. {os.getcwd()}/workspaces <== Recommended\n\n\t2. Other")
     inp = input(f"\n\n{BOLD}Enter the number of your choice (Default is 1: )")
