@@ -11,6 +11,7 @@ FAIL = '\033[91m'
 arguments: list = [
     "list",
     "addcommand",
+    "add"
 ]
 
 cli_argument = argv[2]
@@ -80,7 +81,7 @@ if len(argv) > 1:
         elif cli_argument == "addcommand":
             workspaces = update.update()
             for workspace in workspaces:
-                if workspace.id == int(argv[2]):
+                if workspace.id == int(argv[3]):
                     workspace.new_command(argv[3])
                     print(f"{B}Done!{E}")
                     exit()
@@ -91,7 +92,7 @@ if len(argv) > 1:
         elif cli_argument == "removecommand":
             workspaces = update.update()
             for workspace in workspaces:
-                if workspace.id == int(argv[2]):
+                if workspace.id == int(argv[3]):
                     workspace.remove_command(argv[3])
                     print(f"{B}Done!{E}")
                     exit()
@@ -103,7 +104,7 @@ if len(argv) > 1:
         elif cli_argument == "listcommands":
             workspaces = update.update()
             for workspace in workspaces:
-                if workspace.id == int(argv[2]):
+                if workspace.id == int(argv[3]):
                     print(workspace.commands)
                     print(f"{B}Done!{E}")
                     exit()
@@ -115,20 +116,24 @@ if len(argv) > 1:
             inp = input(f"{S}Are you sure? (y/n): {E}")
             if inp.lower() == "y":
                 workspaces = update.update()
-                for workspace in workspaces:
-                    if workspace.id == int(argv[2]):
-                        del workspace
+                for i, workspace in enumerate(workspaces):
+                    if workspace.id == int(argv[3]):
+                        workspaces.pop(workspace)
             update.save(workspaces)
             exit()
 
         # * Adding workspace           
         elif cli_argument == "add":
-            inp = input(f"{S}Are you sure? (y/n): {E}")
-            if inp.lower() == "y":
-                workspaces = update.update()
-                workspaces.append(update.workspace(argv[2]))
-                print(f"{B}Done!{E}")
+            if argv[-1] != "-confirmYES":
+                inp = input(f"{S}Are you sure? (y/n): {E}")
+                if inp.lower() == "y":
+                    workspaces = update.update()
+                    workspaces.append(update.workspace(argv[3], []))
+                    print(f"{B}Done!{E}")
+            try:
                 update.save(workspaces)
+            except:
+                system("sudo simple-workspaces add {argv[3]} -confirmYES")
 
     else:
         print(helpmessage)

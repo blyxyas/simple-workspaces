@@ -1,5 +1,5 @@
 if __name__ == "__main__":
-    print("Please, do not run this file directly!")
+    print("Please, do not run this file directly, this is just a module. Run simple-workspaces in your terminal!")
     exit()
 
 HEADER = '\033[95m'
@@ -78,7 +78,7 @@ def listinfo():
         print(f"{ORANGE}<=================================>{ENDC}\n\n")
 
 def save(workspaces: list[workspace]) -> None:
-    PATH: str = readconfig()[0] + "/simple-workspaces"
+    PATH = readconfig()[1] + "/workspaces"
     to_write: list = []
 
     for workspace in workspaces:
