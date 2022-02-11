@@ -25,20 +25,13 @@ class workspace:
     def remove_command(self, command_id):
         self.commands.pop(command_id)
 
-def readconfig() -> list:
-    try:
-        open("config/config")
-
-    except:
-        print(f"{FAIL}ERROR: Config file not found. Please run install.py first.{ENDC}")
-        exit()
-    else:
-        with open("config/config", "r") as f:
-            SETTINGS = f.read().splitlines()
-            PATH = SETTINGS[0].split("=")[1]
-            WORKSPACES_PATH = SETTINGS[1].split("=")[1]
-
-    return [PATH, WORKSPACES_PATH]
+from sys import argv
+def readconfig() -> tuple[str, str]:
+    with open(argv[1], "r") as f:
+        lines = f.readlines()
+        PATH = lines[0].strip().split("=")[1]
+        WORKSPACES_PATH = lines[1].strip().split("=")[1]
+    return (PATH, WORKSPACES_PATH)
 
 def update():
 

@@ -13,6 +13,8 @@ arguments: list = [
     "addcommand",
 ]
 
+cli_argument = argv[2]
+
 # ─── MAIN ───────────────────────────────────────────────────────────────────────
 
 helpmessage: str = f"""
@@ -51,15 +53,15 @@ You can manually edit the file to {B}add / edit / remove{E} workspaces, you can 
 """
 
 if len(argv) > 1:
-    if argv[1] in arguments or argv[1].isnumeric():
+    if cli_argument in arguments or cli_argument.isnumeric():
 
-        if argv[1].isnumeric():
+        if cli_argument.isnumeric():
             inp = input(f"{S}Are you sure? (y/n): {E}")
             if inp.lower() == "y":
-                print(f"{B}Loading workspace... {argv[1]}")
+                print(f"{B}Loading workspace... {cli_argument}")
                 workspaces = update.update()
                 for workspace in workspaces:
-                    if workspace.id == int(argv[1]):
+                    if workspace.id == int(cli_argument):
                         workspace.load()
                         print(f"{B}Workspace loaded!{E}")
                         break
@@ -70,12 +72,12 @@ if len(argv) > 1:
 
 
         # * Listing workspaces & info
-        elif argv[1] == "list":
+        elif cli_argument == "list":
             update.listinfo()
             exit()
 
         # * Adding command to workspace
-        elif argv[1] == "addcommand":
+        elif cli_argument == "addcommand":
             workspaces = update.update()
             for workspace in workspaces:
                 if workspace.id == int(argv[2]):
@@ -86,7 +88,7 @@ if len(argv) > 1:
             exit()
 
         # * Removing command from workspace
-        elif argv[1] == "removecommand":
+        elif cli_argument == "removecommand":
             workspaces = update.update()
             for workspace in workspaces:
                 if workspace.id == int(argv[2]):
@@ -98,7 +100,7 @@ if len(argv) > 1:
         
 
         # * Listing commands
-        elif argv[1] == "listcommands":
+        elif cli_argument == "listcommands":
             workspaces = update.update()
             for workspace in workspaces:
                 if workspace.id == int(argv[2]):
@@ -109,7 +111,7 @@ if len(argv) > 1:
             exit()
             
         # * Removing workspace
-        elif argv[1] == "remove":
+        elif cli_argument == "remove":
             inp = input(f"{S}Are you sure? (y/n): {E}")
             if inp.lower() == "y":
                 workspaces = update.update()
@@ -120,7 +122,7 @@ if len(argv) > 1:
             exit()
 
         # * Adding workspace           
-        elif argv[1] == "add":
+        elif cli_argument == "add":
             inp = input(f"{S}Are you sure? (y/n): {E}")
             if inp.lower() == "y":
                 workspaces = update.update()

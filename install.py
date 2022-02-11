@@ -24,7 +24,7 @@ if os.geteuid() == 0:
     inp: str = input(f"{BOLD}Enter the number of your choice (Default is 1): {ENDC}")
 
     if inp == "2":
-        PATH = input(f"{BOLD}Enter the path where you want to install simple-workspaces (You can edit it in the config/config file later and running update.py): {ENDC}")
+        PATH = input(f"{BOLD}Enter the path where you want to install simple-workspaces (You can edit it in the config/config file later): {ENDC}")
     else:
         PATH = "/bin"
 
@@ -48,21 +48,22 @@ if os.geteuid() == 0:
         pass
 
     try:
-        open("config/config")
+        open(f"{workspace_path}/config/config")
     except:
-        open('config/config', 'x')
+        open(f'{workspace_path}config/config', 'x')
         print(f"{BLUE}Creating config/config file!{ENDC}")
 
-    with open("config/config", "w") as f:
-        data = f.write(f"PATH={PATH}\nWORKSPACES_PATH={workspace_path}")
+    with open(f"{workspace_path}/config/config", "w") as f:
+        f.write(f"PATH={PATH}\nWORKSPACES_PATH={workspace_path}")
+        config_path = f"{workspace_path}/config/config"
 
-    print("{BOLD}Installing binary...{ENDC}")
+    print(f"{BOLD}Installing binary...{ENDC}")
 
     # First, we create the binary
 
     print(f"{ORANGE}Creating binary...{ENDC}")
     with open(f"{PATH}/simple-workspaces", "w") as f:
-        f.write(f"#!/bin/bash\npython3 {workspace_path}/mainscript.py $@")
+        f.write(f"#!/bin/bash\npython3 {workspace_path}/mainscript.py {config_path} $@")
 
     # And then we make it executable
     print(f"{ORANGE}Making it executable...{ENDC}")
