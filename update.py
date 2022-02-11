@@ -14,7 +14,7 @@ FAIL = '\033[91m'
 ENDC = '\033[0m'
 BOLD = '\033[1m'
 UNDERLINE = '\033[4m'
-
+filecomment: str = "This is the workspaces file!\n# You can edit this manually, but I don't recommend it, you can use the command 'simple-workspaces' to see a help message.\n\n# If you want to manually edit this file, just use a @ symbol, then a number, the id of the workspace id, then just add the commands you want to run every time you run the command.\n\n#<======EXAMPLE======>\n\n# # This is my workspace for programming!\n\n# @1 google-chrome-stable\n# code-insider\n# bash\n\n#<======END OF EXAMPLE======>\n\n# WARNING! Do not use the '#' symbol at the start of each line, these are comments, if you want your code executed, do not put a '#' symbol!\n"
 PATH: str
 
 @dataclass
@@ -98,4 +98,4 @@ def save(workspaces: list[workspace]) -> None:
             to_write.append(command + "\n")
 
     with open(f"{WORKSPACES_PATH}/workspaces", "w") as f:
-        f.write("\n".join(to_write))
+        f.write(filecomment + "\n" + "\n".join(to_write) + "\n")

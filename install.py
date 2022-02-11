@@ -7,7 +7,7 @@
 import os
 import subprocess
 import sys
-from mainscript import workspaces_comment
+from update import filecomment
 
 if os.geteuid() == 0:
 
@@ -64,7 +64,7 @@ if os.geteuid() == 0:
 
     print(f"{ORANGE}Creating binary...{ENDC}")
     with open(f"{PATH}/simple-workspaces", "w") as f:
-        f.write(f"#!/bin/bash\npython3 {workspace_path}/mainscript.py {config_path} $@")
+        f.write(f"#!/bin/bash\npython3 {workspace_path}/mainscript.py {config_path} $@ || echo \"Path not found, if you want to uninstall simple-workspaces, run simple-workspaces uninstall\"\n\n if [ $1 = 'uninstall'] then rm -- \"$0\" fi")
 
     # And then we make it executable
     print(f"{ORANGE}Making it executable...{ENDC}")
@@ -84,7 +84,7 @@ if os.geteuid() == 0:
                 exit()
         else:
             with open(f"{workspace_path}/workspaces", "w") as f:
-                f.write(workspaces_comment)
+                f.write(filecomment)
 
     print(f"{BOLD}{HEADER}<========== Installed! ==========>{ENDC}")
 else:
