@@ -1,3 +1,6 @@
+from dataclasses import dataclass
+
+
 if __name__ == "__main__":
     print("Please, do not run this file directly, this is just a module. Run simple-workspaces in your terminal!")
     exit()
@@ -14,10 +17,10 @@ UNDERLINE = '\033[4m'
 
 PATH: str
 
+@dataclass
 class workspace:
-    def __init__(self, id, commands):
-        self.id: int = id
-        self.commands: list = commands
+    id: int
+    commands: list
 
     def new_command(self, command):
         self.commands.append(command)
@@ -38,7 +41,6 @@ def update():
     PATH: str = readconfig()[1] + "/workspaces"
     with open(PATH, 'r') as f:
         binary = f.read().split("\n")
-
 
     # * ─── LET'S INTERPRET THE BINARY ──────────────────────────────────────────────────
 
@@ -77,8 +79,17 @@ def listinfo():
         print(*workspace.commands, sep="\n")
         print(f"{ORANGE}<=================================>{ENDC}\n\n")
 
+from os import getuid
+
+class NotSudo(Exception):
+    pass
+
 def save(workspaces: list[workspace]) -> None:
-    PATH = readconfig()[1] + "/workspaces"
+    if getuid() != 0:
+        raise NotSudo("You must use sudo to run this command! ")
+
+    config = readconfig()
+    WORKSPACES_PATH = config[1]
     to_write: list = []
 
     for workspace in workspaces:
@@ -86,5 +97,5 @@ def save(workspaces: list[workspace]) -> None:
         for command in workspace.commands:
             to_write.append(command + "\n")
 
-    with open(PATH, "w") as f:
+    with open(f"{WORKSPACES_PATH}/workspaces", "w") as f:
         f.write("\n".join(to_write))

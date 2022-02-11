@@ -14,7 +14,6 @@ arguments: list = [
     "add"
 ]
 
-cli_argument = argv[2]
 
 # ─── MAIN ───────────────────────────────────────────────────────────────────────
 
@@ -53,7 +52,12 @@ Removes the workspace with the given id.
 You can manually edit the file to {B}add / edit / remove{E} workspaces, you can add comments with '#', but if you want to modify the workspaces using the program, the comments will be removed.
 """
 
-if len(argv) > 1:
+workspaces_comment: str = f"""
+# This is the workspaces file!\n# You can edit this manually, but I don't recommend it, you can use the command 'simple-workspaces' to see a help message.\n\n# If you want to manually edit this file, just use a @ symbol, then a number, the id of the workspace id, then just add the commands you want to run every time you run the command.\n\n#<======EXAMPLE======>\n\n# # This is my workspace for programming!\n\n# @1 google-chrome-stable\n# code-insider\n# bash\n\n#<======END OF EXAMPLE======>\n\n# WARNING! Do not use the '#' symbol at the start of each line, these are comments, if you want your code executed, do not put a '#' symbol!
+"""
+
+if len(argv) >= 2:
+    cli_argument = argv[2]
     if cli_argument in arguments or cli_argument.isnumeric():
 
         if cli_argument.isnumeric():
@@ -124,16 +128,18 @@ if len(argv) > 1:
 
         # * Adding workspace           
         elif cli_argument == "add":
+            print("ADD")
             if argv[-1] != "-confirmYES":
                 inp = input(f"{S}Are you sure? (y/n): {E}")
                 if inp.lower() == "y":
                     workspaces = update.update()
+                    for ws in workspaces:
+                        if ws.id == argv[3]:
+                            print("Workspace already exists! Try with another ID.")
+                            exit()
                     workspaces.append(update.workspace(argv[3], []))
                     print(f"{B}Done!{E}")
-            try:
-                update.save(workspaces)
-            except:
-                system("sudo simple-workspaces add {argv[3]} -confirmYES")
+            update.save(workspaces)
 
     else:
         print(helpmessage)
