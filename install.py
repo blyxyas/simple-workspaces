@@ -47,23 +47,30 @@ if os.geteuid() == 0:
     except:
         pass
 
-    try:
-        open(f"{workspace_path}/config/config")
-    except:
-        open(f'{workspace_path}config/config', 'x')
-        print(f"{BLUE}Creating config/config file!{ENDC}")
+    config_path = "~/.config/simple-workspaces/config"
 
-    with open(f"{workspace_path}/config/config", "w") as f:
-        f.write(f"PATH={PATH}\nWORKSPACES_PATH={workspace_path}")
-        config_path = f"{workspace_path}/config/config"
+    try:
+        open(config_path)
+    except:
+        try:
+            os.mkdir("~/.config/simple-workspaces")
+        except:
+            try:
+                open(config_path, 'x')
+            except:
+                pass
+
+    print(f"{BLUE}The config file was created in ~/.config/simple-workspaces/config{ENDC}")
+
+    with open(config_path, "w") as f:
+        f.write(f"PATH = {PATH}\WS_PATH = {workspace_path}")
 
     print(f"{BOLD}Installing binary...{ENDC}")
 
     # First, we create the binary
 
-    print(f"{ORANGE}Creating binary...{ENDC}")
-    with open(f"{PATH}/simple-workspaces", "w") as f:
-        os.system(f"sudo mv simple-workspaces {PATH}/simple-workspaces")
+    print(f"{ORANGE}Moving binary...{ENDC}")
+    os.system(f"sudo mv simple-workspaces {PATH}")
 
     # And then we make it executable
     print(f"{ORANGE}Making it executable...{ENDC}")

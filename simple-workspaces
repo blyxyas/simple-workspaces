@@ -1,11 +1,25 @@
 #!/bin/bash
 
+config_path="$HOME/.config/simple-workspaces/config"
+
 # Script made by Alex G. C aka Blyxyas visit github.com/blyxyas for more information
 
 # This script is the main script!
 # It is used to run the main program.
 
-# arguments:
+panic(){
+    echo -e "\033[31mERROR: Workspace not found!\033[0m"
+    exit 1
+}
+
+findws(){
+    for ((i=0; i < ${#workspaces[@]};i++)); do
+        if [ "${workspaces[$i].ID}" == "$1" ]; then
+            return "${i}"
+        fi
+    done
+    panic
+}
 
 # Workspaces:
 ws(){
@@ -13,10 +27,14 @@ ws(){
     # Commands is an array of Commands to be executed
 
     Commands=()
-    obj_properties=("$1" Commands)
+    ID=$1
 
     ws.addcommand(){
-        Commands[${#$1[@]}]="$3"
+        {
+            Commands[${#$1[@]}]="$3"
+        } || {
+            panic
+        }
     }
 
     ws.removecommand(){
@@ -42,8 +60,16 @@ ws(){
     }
 }
 
-filename="/home/alex/git/simpleworkspaces/workspaces"
 workspaces=()
+# Reading the config file. We're only interested in the workspaces path, because (obviously) we now the path of the binary, but not where the workspaces file is.
+
+while read -r line; do
+    # We split the line in words
+    splitted=( "$line" )
+    if [ "${line[0]}" == "WS_PATH" ]; then
+        PATH="${splitted[1]}"
+    fi
+done < "$config_path"
 
 while read -r line; do
     # reading workspace file
@@ -72,28 +98,14 @@ while read -r line; do
         fi
     fi
 
-done < $filename
-
-panic(){
-    echo -e "\033[31mERROR: Workspace not found!\033[0m"
-    exit 1
-}
-
-findws(){
-    for ((i=0; i < ${#workspaces[@]};i++)); do
-        if [ "${workspaces[$i]}" == "$1" ]; then
-            return "${i}"
-        fi
-    done
-    panic
-}
+done < $WS_PATH
 
 save(){
     # We save the workspaces.
     echo -e "\033[1m<=======Saving Workspaces:=======>\033[0m"
     for ((i=0; i < ${#workspaces[@]};i++)); do
         workspace="${workspaces[$i]}"
-        echo "$workspace" | sudo tee $filename
+        echo "$workspace" | sudo tee "$WS_PATH"
     done
 }
 
@@ -136,6 +148,17 @@ elif [ "$1" == "removecommand" ]; then
     save
 
 elif [ "$1" == "uninstall" ]; then
+
+    # First, we read the config file to know the paths.
+    while read -r line; do
+        # We split the line in words.
+        splitted=( "$line" )
+        if [ "${splitted[0]}" == "PATH" ]; then
+            # We found the path.
+            PATH="${splitted[1]}"
+        fi
+    done < "$config_path"
+
     read -r -p "Are you sure you want to uninstall simple-workspaces? (y/n) " yn
     case $yn in
         [Yy]* )
