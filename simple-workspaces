@@ -134,4 +134,19 @@ elif [ "$1" == "removecommand" ]; then
     idx=findws "$2"
     "${workspaces[idx]}".removecommand "$3"
     save
+
+elif [ "$1" == "uninstall" ]; then
+    read -r -p "Are you sure you want to uninstall simple-workspaces? (y/n) " yn
+    case $yn in
+        [Yy]* )
+            sudo rm -rf "${BINPATH}"
+            echo -e "\033[1m<=======Uninstalled=======>\033[0m"
+            ;;
+        [Nn]* )
+            echo -e "\033[1m<=======Aborted=======>\033[0m"
+            ;;
+        * )
+            echo -e "\033[1m<=======Aborted=======>\033[0m"
+            ;;
+        esac
 fi
