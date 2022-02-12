@@ -58,7 +58,7 @@ def update():
             # Now we create a workspace object
             workspaces.append(workspace(command[1], []))
 
-        else:
+        elif command.startswith(">"):
             # * This is a command
             workspaces[-1].new_command(command)
     return workspaces
@@ -95,7 +95,7 @@ def save(workspaces: list[workspace]) -> None:
     for workspace in workspaces:
         to_write.append(f"@{workspace.id}\n")
         for command in workspace.commands:
-            to_write.append(command + "\n")
+            to_write.append(f">{command}\n")
 
     with open(f"{WORKSPACES_PATH}/workspaces", "w") as f:
         f.write(filecomment + "\n" + "\n".join(to_write) + "\n")

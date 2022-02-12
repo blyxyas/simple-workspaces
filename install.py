@@ -25,7 +25,7 @@ if os.geteuid() == 0:
     inp: str = input(f"{BOLD}Enter the number of your choice (Default is 1): {ENDC}")
 
     if inp == "2":
-        PATH = input(f"{BOLD}Enter the path where you want to install simple-workspaces (You can edit it in the config/config file later): {ENDC}")
+        PATH = input(f"{BOLD}Enter the path where you want to install simple-workspaces: {ENDC}")
     else:
         PATH = "/usr/bin"
 
@@ -64,7 +64,15 @@ if os.geteuid() == 0:
 
     print(f"{ORANGE}Creating binary...{ENDC}")
     with open(f"{PATH}/simple-workspaces", "w") as f:
-        f.write(f"#!/bin/bash\npython3 {workspace_path}/mainscript.py {config_path} $@ || echo \"Path not found, if you want to uninstall simple-workspaces, run simple-workspaces uninstall\"\n\n if [ $1 = 'uninstall'] then rm -- \"$0\" fi")
+        f.write(f"""
+        #!/bin/bash
+        python3 {workspace_path}/mainscript.py {config_path} $@ || echo \"Path not found, if you want to uninstall simple-workspaces, run simple-workspaces uninstall\"
+        
+        if [[ $1 = 'uninstall' ]]
+        then
+            rm -- \"$0\"
+        fi
+        """)
 
     # And then we make it executable
     print(f"{ORANGE}Making it executable...{ENDC}")

@@ -9,9 +9,9 @@ S = '\033[94m'
 FAIL = '\033[91m'
 
 arguments: list = [
-    "list",
-    "addcommand",
-    "add"
+    "list", # list all workspaces <none>
+    "addcommand", # <workspace_id> <command>
+    "add" # <workspace_id>
 ]
 
 
@@ -52,8 +52,9 @@ Removes the workspace with the given id.
 You can manually edit the file to {B}add / edit / remove{E} workspaces, you can add comments with '#', but if you want to modify the workspaces using the program, the comments will be removed.
 """
 
-if len(argv) >= 3:
+if len(argv) >= 2:
     cli_argument = argv[2]
+    print(cli_argument)
     if cli_argument in arguments or cli_argument.isnumeric():
 
         if cli_argument.isnumeric():
