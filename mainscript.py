@@ -1,3 +1,5 @@
+# Simple workspaces made by Alex G. C aka Blyxyas, visit github.com/blyxyas for more info.
+
 from sys import argv
 from os import system
 import update
@@ -82,10 +84,11 @@ if len(argv) >= 2:
         elif cli_argument == "addcommand":
             workspaces = update.update()
             for workspace in workspaces:
-                if workspace.id == int(argv[3]):
-                    workspace.new_command(argv[3])
+                print(workspace.id, argv[3])
+                if workspace.id == argv[3]:
+                    workspace.new_command(argv[4])
                     print(f"{B}Done!{E}")
-                    exit()
+                    break
             update.save(workspaces)
             exit()
 
