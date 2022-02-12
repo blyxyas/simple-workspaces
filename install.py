@@ -63,15 +63,7 @@ if os.geteuid() == 0:
 
     print(f"{ORANGE}Creating binary...{ENDC}")
     with open(f"{PATH}/simple-workspaces", "w") as f:
-        f.write(f"""
-        #!/bin/bash
-        python3 {workspace_path}/mainscript.py {config_path} $@ || echo \"Path not found, if you want to uninstall simple-workspaces, run simple-workspaces uninstall\"
-        
-        if [[ $1 = 'uninstall' ]]
-        then
-            rm -- \"$0\"
-        fi
-        """)
+        os.system(f"sudo mv simple-workspaces {PATH}/simple-workspaces")
 
     # And then we make it executable
     print(f"{ORANGE}Making it executable...{ENDC}")
