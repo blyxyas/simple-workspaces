@@ -84,7 +84,6 @@ if len(argv) >= 2:
         elif cli_argument == "addcommand":
             workspaces = update.update()
             for workspace in workspaces:
-                print(workspace.id, argv[3])
                 if workspace.id == argv[3]:
                     workspace.new_command(argv[4])
                     print(f"{B}Done!{E}")

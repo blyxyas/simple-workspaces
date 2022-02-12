@@ -14,7 +14,6 @@ FAIL = '\033[91m'
 ENDC = '\033[0m'
 BOLD = '\033[1m'
 UNDERLINE = '\033[4m'
-filecomment: str = "This is the workspaces file!\n# You can edit this manually, but I don't recommend it, you can use the command 'simple-workspaces' to see a help message.\n\n# If you want to manually edit this file, just use a @ symbol, then a number, the id of the workspace id, then just add the commands you want to run every time you run the command.\n\n#<======EXAMPLE======>\n\n# # This is my workspace for programming!\n\n# @1\ngoogle-chrome-stable\n# code-insider\n# bash\n\n#<======END OF EXAMPLE======>\n\n# WARNING! Do not use the '#' symbol at the start of each line, these are comments, if you want your code executed, do not put a '#' symbol!\n"
 PATH: str
 
 @dataclass
@@ -86,7 +85,7 @@ class NotSudo(Exception):
 
 def save(workspaces: list[workspace]) -> None:
     if getuid() != 0:
-        raise NotSudo("You must use sudo to run this command! ")
+        raise NotSudo("You must use sudo to run this command!")
 
     config = readconfig()
     WORKSPACES_PATH = config[1]
@@ -99,5 +98,6 @@ def save(workspaces: list[workspace]) -> None:
                 to_write.append(f"{command}\n")
             to_write.append(f">{command}\n")
 
+    print(workspaces)
     with open(f"{WORKSPACES_PATH}/workspaces", "w") as f:
-        f.write(filecomment + "\n" + "\n".join(to_write) + "\n")
+        f.write("\n".join(to_write) + "\n")
