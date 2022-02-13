@@ -1,7 +1,5 @@
 #!/bin/bash
 
-config_path="$HOME/.config/simple-workspaces/config.conf"
-
 # Script made by Alex G. C aka Blyxyas visit github.com/blyxyas for more information
 
 # This script is the main script!
@@ -21,6 +19,8 @@ findws(){
     done
     panic
 }
+
+
 
 # Workspaces:
 ws(){
@@ -64,11 +64,12 @@ workspaces=()
 
 while read -r line; do
     # We split the line in words
-    splitted=( "$line" )
-    if [ "${line[0]}" == "WS_PATH" ]; then
-        PATH="${splitted[1]}"
+    if [ "${line[0]}" == "W" ]; then
+        WS_PATH="${line | cut -d ' ' -f 2}"
+    elif [ "${line[0]}" == "PATH " ]; then
+        PATH="${line | cut -d ' ' -f 2}"
     fi
-done < "$config_path"
+done < "/home/$USER/.config/simple-workspaces/config.conf"
 
 while read -r line; do
 
@@ -102,9 +103,12 @@ done < "$WS_PATH"
 save(){
     # We save the workspaces.
     echo -e "\033[1m<=======Saving Workspaces:=======>\033[0m"
+    echo "X" > "${WS_PATH}/workspaces"
+    
     for ((i=0; i < ${#workspaces[@]};i++)); do
         workspace="${workspaces[$i]}"
-        echo "$workspace" | sudo tee  "$WS_PATH"
+        echo -a -e "@" "$workspace.ID" "\n" >> "${WS_PATH}"
+        echo -a -e "$workspace.Commands[@]" >> "${WS_PATH}"
     done
 }
 
@@ -149,20 +153,12 @@ elif [ "$1" == "removecommand" ]; then
 elif [ "$1" == "uninstall" ]; then
 
     # First, we read the config file to know the paths.
-    while read -r line; do
-        # We split the line in words.
-        splitted=( "$line" )
-        if [ "${splitted[0]}" == "PATH" ]; then
-            # We found the path.
-            PATH="${splitted[1]}"
-        fi
-    done < "$config_path"
-
     read -r -p "Are you sure you want to uninstall simple-workspaces? (y/n) " yn
     case $yn in
         [Yy]* )
-            sudo rm -rf "${BINPATH}"
+            sudo rm -r "${WS_PATH}"
             echo -e "\033[1m<=======Uninstalled=======>\033[0m"
+            sudo rm -rf "${PATH}"
             ;;
         [Nn]* )
             echo -e "\033[1m<=======Aborted=======>\033[0m"
@@ -175,6 +171,5 @@ elif [ "$1" == "uninstall" ]; then
 else
 
     clear
-    echo -e "\033[93mSimple Workspaces\033[0m\nSimple Workspaces is a simple workspace manager.\nIt allows you to create workspaces and save them in a file\nYou can load them in the terminal at any moment.\nJust add some commands to a workspace and you're done! Use it whenever you want!\nUsage:\n\n==> simple-workspace \033[1m\033[94m[workspace_id]\033[0m\nOpens a workspace with the given id\n\n==> simple-workspace \033[1m\033[94mhelp | -h | --help | ?\033[0m\nShows this help message\n\n==> simple-workspace \033[1m\033[94maddcommand \033[93m[workspace_id] \033[95m[command]\033[0m\nAdds a command to the workspace with the given id.\n\n==> simple-workspace \033[1m\033[94mremovecommand \033[93m[workspace_id] \033[95m[command_id]\033[0m\nRemoves a command with the given id from the workspace with the given id.\n\n==> simple-workspace \033[1m\033[94mlist\033[0m\nLists all the workspaces.\n\n==> simple-workspace \033[1m\033[94mlistcommands \033[93m[workspace_id]\033[0m\n\n==> simple-workspace \033[1m\033[94mremove \033[93m[workspace_id]\033[0m nRemoves the workspace with the given id\n\nYou can manually edit the file to \033[1m\033[94madd / edit / remove\033[0m workspaces, you can add comments with '#', but if you want to modify the workspaces using the program, the comments will be removed."
-
+    echo -e "\033[93mSimple Workspaces\033[0m\nSimple Workspaces is a simple workspace manager.\nIt allows you to create workspaces and save them in a file\nYou can load them in the terminal at any moment.\nJust add some commands to a workspace and you're done! Use it whenever you want!\nUsage:\n\n==> simple-workspace \033[94m\033[1mload\033[1m\033[95m[Workspace ID]\033[0m\nOpens a workspace with the given id\n\n==> simple-workspace \033[1m\033[94mhelp | -h | --help | ?\033[0m\nShows this help message\n\n==> simple-workspace \033[1m\033[94maddcommand \033[93m[Workspace ID] \033[95m[command]\033[0m\nAdds a command to the workspace with the given id.\n\n==> simple-workspace \033[1m\033[94mremovecommand \033[93m[Workspace ID] \033[95m[Command]\033[0m\nRemoves a command with the given id from the workspace with the given id.\n\n==> simple-workspace \033[1m\033[94mlist\033[0m\nLists all the workspaces.\n\n==> simple-workspace \033[1m\033[94mlistcommands \033[93m[Workspace ID]\033[0m\n\n==> simple-workspace \033[1m\033[94mremove \033[93m[Workspace ID]\033[0m nRemoves the workspace with the given id\n\nYou can manually edit the file to \033[1m\033[94madd / edit / remove\033[0m workspaces, you can add comments with '#', but if you want to modify the workspaces using the program, the comments will be removed."
 fi

@@ -38,6 +38,9 @@ if os.geteuid() == 0:
     else:
         PATH = "/usr/bin"
 
+    os.system("clear")
+    print(f"{BOLD}{UNDERLINE}{ORANGE}<========== Installing... ==========>{ENDC}")
+
     print(f"\n\n{BOLD}Where do you want to save the workspaces?{ENDC}\n\n\t1. ~/.config/simple-workspaces/ <== Recommended\n\n\t2. Other")
     inp = input(f"\n\n{BOLD}Enter the number of your choice (Default is 1: )")
 
@@ -50,6 +53,9 @@ if os.geteuid() == 0:
             os.mkdir(workspace_path)
     else:
         workspace_path = f"/home/{os.getlogin()}/.config/simple-workspaces"
+
+    os.system("clear")
+    print(f"{BOLD}{UNDERLINE}{ORANGE}<========== Installing... ==========>{ENDC}")
 
     # If the directory config does not exist, create it.
     try:
@@ -68,8 +74,10 @@ if os.geteuid() == 0:
     try:
         with open(f"{config_path}/config.conf", "x") as f:
             f.write(f"PATH = {PATH}\nWS_PATH = {workspace_path}")
+
     except FileExistsError:
-        pass
+        with open(f"{config_path}/config.conf", "w") as f:
+            f.write(f"PATH = {PATH}\nWS_PATH = {workspace_path}")
 
     print(f"{BLUE}The config file was created in ~/.config/simple-workspaces/config.conf{ENDC}")
 
