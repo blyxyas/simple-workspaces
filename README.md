@@ -30,6 +30,7 @@ To uninstall simple-workspaces, just use `simple-workspaces uninstall`, this wil
 
 * The binary
 * The `workspaces` file in the workspaces path, it will not remove the directory with the workspaces, however, it'll output the directory path if you want to delete it manually.
+* The `~/.config/simple-workspaces/` directory
 
 # Usage
 
@@ -73,3 +74,9 @@ It prints the integrated help message.
 * `uninstall`
 
 It uninstalls the program. This command will ask if you're sure about the uninstallation, then ask for `sudo` permissions. See [the uninstallation section](#uninstallation) for more information.
+
+# License & Credits
+
+Simple-workspaces have the GNU General Public License v3.0, see [the license](https://github.com/blyxyas/simple-workspaces/blob/master/LICENSE) for more information. Long story short, this is a free software, you can use it, modify it, redistribute it, etc. But, you must credit me as the creator of this software, and your modification must be open source.
+
+simple-workspaces was created by [Blyxyas](https://github.com/blyxyas). Thanks for using it, if you have any suggestions, let me know, opening an issue or a pull request is always welcome.
