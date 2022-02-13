@@ -73,8 +73,8 @@ while read -r line; do
 done < "$config_path"
 
 while read -r line; do
-    # reading workspace file
 
+    # reading workspace file
     # If the line is a comment or empty, then skip it.
     if [ "${line:0:1}" = "#" ] || [ -z "$line" ]; then
         continue
@@ -99,14 +99,14 @@ while read -r line; do
         fi
     fi
 
-done < $WS_PATH
+done < "$WS_PATH"
 
 save(){
     # We save the workspaces.
     echo -e "\033[1m<=======Saving Workspaces:=======>\033[0m"
     for ((i=0; i < ${#workspaces[@]};i++)); do
         workspace="${workspaces[$i]}"
-        echo "$workspace" | sudo tee "$WS_PATH"
+        echo "$workspace" | sudo tee  "$WS_PATH"
     done
 }
 

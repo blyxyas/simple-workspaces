@@ -1,3 +1,5 @@
+# Script made by: Alex G. C aka Blyxyas, visit github.com/blyxyas/simple-workspaces for more info about licensing and things idk
+
 #
 # ───────────────────────────────────────────────────────────────────────
 #   :::::: I N S T A L L I N G : :  :   :    :     :        :          :
@@ -7,6 +9,14 @@
 import os
 import subprocess
 import sys
+
+# First, we see if the user is in linux
+print("Checking if you are in Linux...")
+if sys.platform == "linux" or sys.platform == "linux2":
+    pass
+else:
+    print("Sorry, this program is only for Linux users.")
+    sys.exit(1)
 
 if os.geteuid() == 0:
 
@@ -47,7 +57,7 @@ if os.geteuid() == 0:
     except:
         pass
 
-    config_path = f"~/.config/simple-workspaces/"
+    config_path = f"/home/{os.getlogin()}/.config/simple-workspaces/"
 
     # If the config file does not exist, create it.
     try:
@@ -60,28 +70,6 @@ if os.geteuid() == 0:
             f.write(f"PATH = {PATH}\nWS_PATH = {workspace_path}")
     except FileExistsError:
         pass
-
-    print(f"\n\n{BOLD}Where do you want to save the workspaces?{ENDC}\n\n\t1. {os.getcwd()}/workspaces <== Recommended\n\n\t2. Other")
-    inp = input(f"\n\n{BOLD}Enter the number of your choice (Default is 1: )")
-
-    if inp == "2":
-        print(f"{FAIL}{BOLD}⚠️ WARNING:{ENDC}{FAIL} Just enter the DIRECTORY, {BOLD}not the file{ENDC}")
-        workspace_path = input(f"{BOLD}Enter the path where you want to save the workspaces: {ENDC}")
-
-        if not os.path.exists(workspace_path):
-            print(f"{BLUE}Path does not exists, creating {workspace_path}")
-            os.mkdir(workspace_path)
-    else:
-        workspace_path = os.getcwd()
-
-    # If the config file does not exist, create it.
-
-    print(f"\n\n{BOLD}Where do you want to save the workspaces?{ENDC}\n\n\t1. {os.getcwd()}/workspaces <== Recommended\n\n\t2. Other")
-    inp = input(f"\n\n{BOLD}Enter the number of your choice (Default is 1: )")
-
-    if inp == "2":
-        print(f"{FAIL}{BOLD}⚠️ WARNING:{ENDC}{FAIL} Just enter the DIRECTORY, {BOLD}not the file{ENDC}")
-    
 
     print(f"{BLUE}The config file was created in ~/.config/simple-workspaces/config.conf{ENDC}")
 
