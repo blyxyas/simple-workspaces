@@ -15,7 +15,7 @@ print("Checking if you are in Linux...")
 if sys.platform == "linux" or sys.platform == "linux2":
     pass
 else:
-    print("Sorry, this program is only for Linux users.")
+    print("Sorry, this program is only for Linux users, because it uses the Linux filesystem, the Linux Bash Scripting Language, and the Linux Terminal. You can delete this directory manually, for the moment no file was created.")
     sys.exit(1)
 
 if os.geteuid() == 0:
@@ -38,7 +38,7 @@ if os.geteuid() == 0:
     else:
         PATH = "/usr/bin"
 
-    print(f"\n\n{BOLD}Where do you want to save the workspaces?{ENDC}\n\n\t1. {os.getcwd()}/workspaces <== Recommended\n\n\t2. Other")
+    print(f"\n\n{BOLD}Where do you want to save the workspaces?{ENDC}\n\n\t1. ~/.config/simple-workspaces/ <== Recommended\n\n\t2. Other")
     inp = input(f"\n\n{BOLD}Enter the number of your choice (Default is 1: )")
 
     if inp == "2":
@@ -46,10 +46,10 @@ if os.geteuid() == 0:
         workspace_path = input(f"{BOLD}Enter the path where you want to save the workspaces: {ENDC}")
 
         if not os.path.exists(workspace_path):
-            print(f"{BLUE}Path does not exit, creating {workspace_path}")
+            print(f"{BLUE}Path does not exists, creating {workspace_path}")
             os.mkdir(workspace_path)
     else:
-        workspace_path = os.getcwd()
+        workspace_path = f"/home/{os.getlogin()}/.config/simple-workspaces"
 
     # If the directory config does not exist, create it.
     try:
