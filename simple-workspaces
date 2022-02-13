@@ -13,6 +13,7 @@ panic(){
 }
 
 findws(){
+    # Find the ID of workspace, returns the index where the workspace with the given ID is found.
     for ((i=0; i < ${#workspaces[@]};i++)); do
         if [ "${workspaces[$i].ID}" == "$1" ]; then
             return "${i}"
