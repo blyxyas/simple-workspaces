@@ -1,5 +1,5 @@
 #!/bin/bash
-
+clear
 # Script made by Alex G. C aka Blyxyas visit github.com/blyxyas for more information
 
 # This script is the main script!
@@ -63,13 +63,21 @@ workspaces=()
 # Reading the config file. We're only interested in the workspaces path, because (obviously) we now the path of the binary, but not where the workspaces file is.
 
 while read -r line; do
-    # We split the line in words
-    if [ "${line[0]}" == "W" ]; then
-        WS_PATH="${line | cut -d ' ' -f 2}"
-    elif [ "${line[0]}" == "PATH " ]; then
-        PATH="${line | cut -d ' ' -f 2}"
+
+    IFS='=' read -ra arg <<< "$line"
+    IFS=' '
+
+    if [ "${arg[0]}" == "WS_PATH" ]; then
+        WS_PATH="${arg[1]}"
+
+    elif [ "${arg[0]}" == "PATH" ]; then
+        PATH="${arg[1]}"
     fi
+
 done < "/home/$USER/.config/simple-workspaces/config.conf"
+
+echo "WSPATH: $WS_PATH"
+echo "PATH: $PATH"
 
 while read -r line; do
 

@@ -77,7 +77,7 @@ if os.geteuid() == 0:
 
     except FileExistsError:
         with open(f"{config_path}/config.conf", "w") as f:
-            f.write(f"PATH = {PATH}\nWS_PATH = {workspace_path}")
+            f.write(f"PATH={PATH}\nWS_PATH={workspace_path}\n")
 
     print(f"{BLUE}The config file was created in ~/.config/simple-workspaces/config.conf{ENDC}")
 
