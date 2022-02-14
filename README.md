@@ -80,3 +80,9 @@ It uninstalls the program. This command will ask if you're sure about the uninst
 Simple-workspaces have the GNU General Public License v3.0, see [the license](https://github.com/blyxyas/simple-workspaces/blob/master/LICENSE) for more information. Long story short, this is a free software, you can use it, modify it, redistribute it, etc. But, you must credit me as the creator of this software, and your modification must be open source.
 
 simple-workspaces was created by [Blyxyas](https://github.com/blyxyas). Thanks for using it, if you have any suggestions, let me know, opening an issue or a pull request is always welcome.
+
+# Contributions
+
+Obviously, I cannot guarantee that simple-workspace will work properly in your Linux distro, I tried to make that the end user can customize almost everything, but some things need to be known, that's how software works! If you have any problem, you can help the project, even in various ways.
+
+If you catch a bug, [report it](https://github.com/Blyxyas/simple-workspaces/issues), that's the most helpful act you can do to a project. You can even do a [pull request](https://github.com/Blyxyas/simple-workspaces/pulls), a pull request can be a lot of things, not only code, it can be documentation, propositions to change the style of the CLI, or **even just a typo!**
