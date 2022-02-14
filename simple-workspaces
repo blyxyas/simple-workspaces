@@ -74,7 +74,7 @@ while read -r line; do
         PATH="${arg[1]}"
     fi
 
-done < "/home/$USER/.config/simple-workspaces/config.conf"
+done < "/home/$USER/.config/simple-workspaces/config"
 
 echo "WSPATH: $WS_PATH"
 echo "PATH: $PATH"
@@ -111,7 +111,11 @@ done < "$WS_PATH"
 save(){
     # We save the workspaces.
     echo -e "\033[1m<=======Saving Workspaces:=======>\033[0m"
-    echo "X" > "${WS_PATH}/workspaces"
+    if [ "$EUID" -ne 0 ]; then
+        echo -e "\033[31mERROR: All scripts that modify the file must be ran with sudo!\033[0m"
+        exit 0
+    fi
+    echo "\n" > "${WS_PATH}/workspaces"
     
     for ((i=0; i < ${#workspaces[@]};i++)); do
         workspace="${workspaces[$i]}"

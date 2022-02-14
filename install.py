@@ -1,5 +1,6 @@
 # First, we try to see if the user is in Linux, and if they are sudo, we continue
 
+import os
 import sys
 import subprocess
 
