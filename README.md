@@ -81,8 +81,22 @@ Simple-workspaces have the GNU General Public License v3.0, see [the license](ht
 
 simple-workspaces was created by [Blyxyas](https://github.com/blyxyas). Thanks for using it, if you have any suggestions, let me know, opening an issue or a pull request is always welcome.
 
-# Contributions
+
+# Disclaimer
 
 Obviously, I cannot guarantee that simple-workspace will work properly in your Linux distro, I tried to make that the end user can customize almost everything, but some things need to be known, that's how software works! If you have any problem, you can help the project, even in various ways.
+
+See [Contributions sections](#contributions) for more information.
+
+simple-workspaces was developed in Arch Linux, but it should work in any Linux distro, as long as it has the following.
+
+* Python (3.6+)
+* Git for cloning the repo.
+* A `.config` directory in the home directory.
+
+As far as my knowledge goes, I think most Linux distro meets the requirements (except Git).
+
+# Contributions
+
 
 If you catch a bug, [report it](https://github.com/Blyxyas/simple-workspaces/issues), that's the most helpful act you can do to a project. You can even do a [pull request](https://github.com/Blyxyas/simple-workspaces/pulls), a pull request can be a lot of things, not only code, it can be documentation, propositions to change the style of the CLI, or **even just a typo!**
