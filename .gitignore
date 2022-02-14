@@ -1,3 +1,4 @@
 config
 workspaces
 __pycache__
+*.pyc
