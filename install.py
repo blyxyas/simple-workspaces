@@ -52,7 +52,7 @@ if os.geteuid() == 0:
             print(f"{BLUE}Path does not exists, creating {workspace_path}")
             os.mkdir(workspace_path)
     else:
-        workspace_path = f"/home/{os.getlogin()}/.config/simple-workspaces"
+        workspace_path = f"/home/{os.getlogin()}/.config/simple-workspaces/"
 
     os.system("clear")
     print(f"{BOLD}{UNDERLINE}{ORANGE}<========== Installing... ==========>{ENDC}")
@@ -73,11 +73,11 @@ if os.geteuid() == 0:
 
     try:
         with open(f"{config_path}/config.conf", "x") as f:
-            f.write(f"PATH = {PATH}\nWS_PATH = {workspace_path}")
+            f.write(f"PATH = {PATH}\nWS_PATH = {workspace_path}workspaces\n")
 
     except FileExistsError:
         with open(f"{config_path}/config.conf", "w") as f:
-            f.write(f"PATH={PATH}\nWS_PATH={workspace_path}\n")
+            f.write(f"PATH={PATH}\nWS_PATH={workspace_path}workspaces\n")
 
     print(f"{BLUE}The config file was created in ~/.config/simple-workspaces/config.conf{ENDC}")
 
@@ -98,17 +98,19 @@ if os.geteuid() == 0:
         os.mkdir(workspace_path)
     except:
         try:
-            open(f"{workspace_path}/workspaces")
+            open(f"{workspace_path}workspaces")
         except:
             try:
-                open(f"{workspace_path}/workspaces", "x")
+                open(f"{workspace_path}workspaces", "x")
             except:
                 print(f"{FAIL}ERROR: Cannot open directory{ENDC}")
                 exit()
         else:
-            with open(f"{workspace_path}/workspaces", "w") as f:
+            with open(f"{workspace_path}workspaces", "w") as f:
                 f.write("This is the workspaces file!\n# You can edit this manually, but I don't recommend it, you can use the command 'simple-workspaces' to see a help message.\n\n# If you want to manually edit this file, just use a @ symbol, then a number, the id of the workspace id, then just add the commands you want to run every time you run the command.\n\n#<======EXAMPLE======>\n\n# # This is my workspace for programming!\n\n# @1\ngoogle-chrome-stable\n# code-insider\n# bash\n\n#<======END OF EXAMPLE======>\n\n# WARNING! Do not use the '#' symbol at the start of each line, these are comments, if you want your code executed, do not put a '#' symbol!\n")
 
     print(f"{BOLD}{HEADER}<========== Installed! ==========>{ENDC}")
+
+    print("{BOLD}You can now use the command 'simple-workspaces' to see the help message. Or enter the repo at github.com/blyxyas/simple-workspaces{ENDC}")
 else:
     subprocess.call(['sudo', 'python3'] + sys.argv)

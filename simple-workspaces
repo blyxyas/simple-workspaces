@@ -48,7 +48,7 @@ ws(){
     }
 
     ws.list(){
-        echo -e "\033[1m<=======Commands of Workspace:=======>\033[0m"
+        echo -e "\033[1m<======= Commands of Workspace: =======>\033[0m"
     }
 
     ws.loadws(){
@@ -124,7 +124,7 @@ save(){
 
 if [ "$1" = "list" ]; then
     # We list the workspaces.
-    echo -e "\033[1m<=======Workspaces=======>\033[0m"
+    echo -e "\033[1m<======= Workspaces =======>\033[0m"
     for ((i=0; i < ${#workspaces[@]};i++)); do
         echo "${workspaces[$i]}"
         ${workspaces[i]}.list
@@ -165,14 +165,14 @@ elif [ "$1" == "uninstall" ]; then
     case $yn in
         [Yy]* )
             sudo rm -r "${WS_PATH}"
-            echo -e "\033[1m<=======Uninstalled=======>\033[0m"
+            echo -e "\033[1m<======= Uninstalled =======>\033[0m"
             sudo rm -rf "${PATH}"
             ;;
         [Nn]* )
-            echo -e "\033[1m<=======Aborted=======>\033[0m"
+            echo -e "\033[1m<======= Aborted =======>\033[0m"
             ;;
         * )
-            echo -e "\033[1m<=======Aborted=======>\033[0m"
+            echo -e "\033[1m<======= Aborted =======>\033[0m"
             ;;
         esac
 
