@@ -1,8 +1,6 @@
 # Installer library made by Alex G. C aka blyxyas visit github.com/blyxyas/simple-workspaces for more info about licensing and things idk
 
-import subprocess
 import os
-import sys
 
 def option(
     text: str,
@@ -10,10 +8,10 @@ def option(
     option2: str,
 ) -> None:
 
-    print(f"\033[1m{text}\033[1m\n\n\t1. {option1}<== Recommended\n\t2. {option2}\n\n")
+    print(f"\033[1m{text}\033[0m\n\n\t\033[93m1. {option1} <== Recommended\n\t\033[0m2. {option2}")
     option = input(f"\033[1m\n\nEnter the number of your choice (Default is 1): \033[0m")
 
-    if option not in "12" or option == "1":
+    if option != "2":
         return option1
 
     else:
@@ -41,17 +39,3 @@ def create_dir(path: str) -> None:
         os.makedirs(path)
     except FileExistsError:
         pass
-
-
-def asksudo():
-    print("\033[1mChecking if you are in Linux...\033[0m")
-    if sys.platform == "linux" or sys.platform == "linux2":
-        pass
-    else:
-        print("Sorry, this program is only for Linux users, because it uses the Linux filesystem, the Linux Bash Scripting Language, and the Linux Terminal. You can delete this directory manually, for the moment no file was created.")
-        exit(1)
-
-    if os.getuid() == 0:
-        pass
-    else:
-        subprocess.call(['sudo', 'python3'] + sys.argv)
