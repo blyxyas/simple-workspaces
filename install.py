@@ -38,7 +38,7 @@ create_dir(config_path)
 
 # Now, we create the workspaces file.
 
-workspaces_path: str = option("Where do you want to save your workspaces? Enter the directory", config_path, "Other")
+workspaces_path: str = option("Where do you want to save your workspaces? Enter the directory", f"/home/{os.getlogin()}/simple-workspaces", "Other")
 
 create_dir(workspaces_path)
 create_file(workspaces_path, "workspaces", "This is the workspaces file!\n# You can edit this manually, but I don't recommend it, you can use the command 'simple-workspaces' to see a help message.\n\n# If you want to manually edit this file, just use a @ symbol, then a number, the id of the workspace id, then just add the commands you want to run every time you run the command.\n\n#<======EXAMPLE======>\n\n# # This is my workspace for programming!\n\n# @1\ngoogle-chrome-stable\n# code-insider\n# bash\n\n#<======END OF EXAMPLE======>\n\n# WARNING! Do not use the '#' symbol at the start of each line, these are comments, if you want your code executed, do not put a '#' symbol!\n")
