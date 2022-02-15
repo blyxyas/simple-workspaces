@@ -28,17 +28,17 @@ class ws:
         for command in self.commands:
             os.system(command)
 
-def readconfig(path: str) -> tuple(str, str):
+def readconfig(path: str):
     with open(path, 'r') as f:
         for line in f:
             if line[:5] == "PATH=":
                 path = line[5:]
             elif line[:8] == "WS_PATH=":
                 ws_path = line[8:]
-    return (path, ws_path)
+    return path, ws_path
 
 def save(wss: list[ws], ws_path: str):
-    with open(ws_path, 'w') as f:
+    with open(f"{ws_path}/workspaces", 'w') as f:
         f.write("")
         f.close()
     with open(ws_path, "a") as f:

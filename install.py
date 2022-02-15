@@ -33,7 +33,6 @@ from libs.modinstall import *
 # Then we create the main directory, where the config file is located, and I strongly recommend to store also the workspaces.
 
 config_path = f"/home/{os.getlogin()}/.config/simple-workspaces"
-create_dir(config_path)
 
 # Now, we create the workspaces file.
 
@@ -55,7 +54,12 @@ create_file(f"/home/{os.getlogin()}/.config/simple-workspaces", "config", f"# Th
 #  create the binary (In development, we copy the binary, but in the future we'll move it.)
 
 print("\033[95mCreating executable\033[0m")
-os.system(f"sudo cp ./simple-workspaces {path}")
+create_file(path, "simple-workspaces", f"""
+#!/bin/bash
+# This is the main script for the simple-workspaces program, please do not delete the file.
+
+python {os.getcwd()}/mainscript.py {config_path}/config $@
+""")
 
 # Now, make it executable
 
