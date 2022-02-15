@@ -54,7 +54,7 @@ def findindex(
     ID: int,
     wss: list[ws]
 ) -> int:
-    for ws in ws:
+    for ws in wss:
             if ws.ID == ID:
                 return ws
 

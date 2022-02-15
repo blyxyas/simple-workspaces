@@ -30,7 +30,6 @@ print("\033[92;1mInstalling!\033[0m")
 import os
 from libs.modinstall import *
 
-
 # Then we create the main directory, where the config file is located, and I strongly recommend to store also the workspaces.
 
 config_path = f"/home/{os.getlogin()}/.config/simple-workspaces"

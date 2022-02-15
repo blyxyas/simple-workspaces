@@ -32,7 +32,6 @@ if len(argv) < 3:
 else:
     arg = argv[2]
 
-
 workspaces: list = []
 
 # Reading the workspaces
@@ -68,7 +67,7 @@ if arg in arguments:
             exit()
 
         ws_id = argv[3]
-        workspaces.remove(findindex(ws_id, workspaces))
+        workspaces.remove(workspaces.index(ws_id))
     
     elif arg == "load":
         if len(argv) < 4:
@@ -76,7 +75,7 @@ if arg in arguments:
             exit()
 
         ws_id = argv[3]
-        ws_index = findindex(ws_id, workspaces)
+        ws_index = workspaces.index(ws_id)
         for command in workspaces[ws_index]:
             os.system(command)
 
@@ -87,7 +86,7 @@ if arg in arguments:
             exit()
 
         ws_id = argv[3]
-        ws_index = findindex(ws_id, workspaces)
+        ws_index = workspaces.index(ws_id)
         command = input("Command: ")
         workspaces[ws_index].addcommand(command)
 
@@ -99,8 +98,8 @@ if arg in arguments:
             exit()
 
         ws_id = argv[3]
-        ws_index = findindex(ws_id, workspaces)
-        workspaces[ws_index].pop(int(third))
+        ws_index = workspaces.index(ws_id)
+        workspaces[ws_index].pop(int(argv[4]))
 
     # TODO Uninstall
 
