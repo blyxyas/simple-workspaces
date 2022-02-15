@@ -19,10 +19,11 @@ with open(argv[1], "r") as f:
         if line[0] == "#":
             continue
         else:
-            if line[:4] == "PATH":
-                path = line[6:]
-            elif line[:7] == "WS_PATH":
-                ws_path = line[9:]
+            line = line.split("=")
+            if line[0] == "PATH":
+                path = line[1]
+            elif line[0] == "WS_PATH":
+                ws_path = line[1] 
 
 # If there's not argument, print the help
 
@@ -35,16 +36,20 @@ else:
 workspaces: list = []
 
 # Reading the workspaces
-with open(ws_path, 'r') as f:
+with open(f"{ws_path}/workspaces", 'r') as f:
     lines = f.readlines()
     for line in lines:
         if line[0] == "#" or line[0] == "\n":
             continue
         else:
+            print(line[0], line)
             if line[0] == "@":
-                workspaces.append(ws(line[1:], []))
-            else:
+                works = ws(line[1:], [])
+                workspaces.append(works)
+            elif len(workspaces) != 0:
                 workspaces[-1].addcommand(line)
+            else:
+                continue
 
 if arg in arguments:
     if arg == "list":
@@ -58,7 +63,15 @@ if arg in arguments:
         print("\033[1m<======= End of Workspaces =======>\033[0m")
 
     elif arg == "add":
-        workspaces.append(ws(input("Workspace ID: "), []))
+        to_add = ws(input("Workspace ID: "), [])
+        workspaces.append(to_add)
+        # Check if the workspace already exists
+        if exists(to_add.ID, workspaces) == False:
+            print("\033[31mWorkspace already exists!\033[0m")
+            exit()
+
+        print(f"Workspace {to_add.ID} added")
+        save(workspaces, ws_path)
 
     elif arg == "remove":
 

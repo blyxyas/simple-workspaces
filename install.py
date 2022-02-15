@@ -39,7 +39,7 @@ config_path = f"/home/{os.getlogin()}/.config/simple-workspaces"
 workspaces_path: str = option("Where do you want to save your workspaces? Enter the directory", f"/home/{os.getlogin()}/simple-workspaces", "Other")
 
 create_dir(workspaces_path)
-create_file(workspaces_path, "workspaces", "This is the workspaces file!\n# You can edit this manually, but I don't recommend it, you can use the command 'simple-workspaces' to see a help message.\n\n# If you want to manually edit this file, just use a @ symbol, then a number, the id of the workspace id, then just add the commands you want to run every time you run the command.\n\n#<======EXAMPLE======>\n\n# # This is my workspace for programming!\n\n# @1\ngoogle-chrome-stable\n# code-insider\n# bash\n\n#<======END OF EXAMPLE======>\n\n# WARNING! Do not use the '#' symbol at the start of each line, these are comments, if you want your code executed, do not put a '#' symbol!\n")
+create_file(workspaces_path, "workspaces", "# This is the workspaces file!\n# You can edit this manually, but I don't recommend it, you can use the command 'simple-workspaces' to see a help message.\n\n# If you want to manually edit this file, just use a @ symbol, then a number, the id of the workspace id, then just add the commands you want to run every time you run the command.\n\n#<======EXAMPLE======>\n\n# # This is my workspace for programming!\n\n# @1\n# google-chrome-stable\n# code-insider\n# bash\n\n#<======END OF EXAMPLE======>\n\n# WARNING! Do not use the '#' symbol at the start of each line, these are comments, if you want your code executed, do not put a '#' symbol!\n")
 
 # Now, we see where the Binary is going to be installed, I strongly recommend to be in /usr/bin
 
@@ -49,7 +49,7 @@ path: str = option("Where do you want to install the binary? Enter the directory
 
 print(f"\033[93mCreating config file in /home/{os.getlogin()}/.config/simple-workspaces\033[0m")
 create_dir(f"/home/{os.getlogin()}/.config/simple-workspaces")
-create_file(f"/home/{os.getlogin()}/.config/simple-workspaces", "config", f"# This is the config file, not intended to be edited manually, or edited in general, if you want to edit this file, use the Python installer at the original location.\n\nPATH={path}\nWS_PATH={workspaces_path}\n")
+create_file(f"/home/{os.getlogin()}/.config/simple-workspaces", "config", f"# This is the config file, not intended to be edited manually, or edited in general, if you want to edit this file, use the Python installer at the original location.\n\nPATH={path}\nWS_PATH={workspaces_path}")
 
 #  create the binary (In development, we copy the binary, but in the future we'll move it.)
 
