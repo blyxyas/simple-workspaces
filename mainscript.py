@@ -34,6 +34,7 @@ else:
     arg = argv[2]
 
 workspaces: list = []
+wsIDS: list = []
 
 # Reading the workspaces
 with open(f"{ws_path}/workspaces", 'r') as f:
@@ -46,6 +47,7 @@ with open(f"{ws_path}/workspaces", 'r') as f:
             if line[0] == "@":
                 works = ws(line[1:], [])
                 workspaces.append(works)
+                wsIDS.append(line[1:])
             elif len(workspaces) != 0:
                 workspaces[-1].addcommand(line)
             else:
@@ -64,11 +66,13 @@ if arg in arguments:
 
     elif arg == "add":
         to_add = ws(input("Workspace ID: "), [])
-        workspaces.append(to_add)
         # Check if the workspace already exists
         if exists(to_add.ID, workspaces) == False:
             print("\033[31mWorkspace already exists!\033[0m")
             exit()
+
+        workspaces.append(to_add)
+        wsIDS.append(to_add.ID)
 
         print(f"Workspace {to_add.ID} added")
         save(workspaces, ws_path)
@@ -80,7 +84,7 @@ if arg in arguments:
             exit()
 
         ws_id = argv[3]
-        workspaces.remove(workspaces.index(ws_id))
+        remove(ws_id, workspaces, wsIDS)
     
     elif arg == "load":
         if len(argv) < 4:
