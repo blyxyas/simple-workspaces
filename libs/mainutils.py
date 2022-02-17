@@ -59,23 +59,10 @@ def remove(workspace: ws, workspaces: list[ws], ids: list[int]):
     workspaces.remove(workspace)
     ids.remove(workspace.ID)
 
-# Secondary functions
-
-def findindex(
-    ID: int,
-    wss: list[ws]
-) -> int:
+def index(wss: list[ws], ws_id: int):
     for ws in wss:
-            if ws.ID == ID:
-                return ws
-
-    print("\033[31mWorkspace not found!\033[0m")
-    exit()
-
-def exists(id: int, workspaces: list[ws]) -> bool:
-    for ws in workspaces:
-            if id == ws.ID:
-                return True
-    return False
+        if int(ws.ID) == ws_id:
+            return ws
+    return None
 
 helpmessage = "\033[93mSimple Workspaces\033[0m\nSimple Workspaces is a simple workspace manager.\nIt allows you to create workspaces and save them in a file\nYou can load them in the terminal at any moment.\nJust add some commands to a workspace and you're done! Use it whenever you want!\nUsage:\n\n==> simple-workspace \033[94m\033[1mload\033[1m\033[95m[Workspace ID]\033[0m\nOpens a workspace with the given id\n\n==> simple-workspace \033[1m\033[94mhelp | -h | --help | ?\033[0m\nShows this help message\n\n==> simple-workspace \033[1m\033[94maddcommand \033[93m[Workspace ID] \033[95m[command]\033[0m\nAdds a command to the workspace with the given id.\n\n==> simple-workspace \033[1m\033[94mremovecommand \033[93m[Workspace ID] \033[95m[Command]\033[0m\nRemoves a command with the given id from the workspace with the given id.\n\n==> simple-workspace \033[1m\033[94mlist\033[0m\nLists all the workspaces.\n\n==> simple-workspace \033[1m\033[94mlistcommands \033[93m[Workspace ID]\033[0m\n\n==> simple-workspace \033[1m\033[94mremove \033[93m[Workspace ID]\033[0m nRemoves the workspace with the given id\n\nYou can manually edit the file to \033[1m\033[94madd / edit / remove\033[0m workspaces, you can add comments with '#', but if you want to modify the workspaces using the program, the comments will be removed."

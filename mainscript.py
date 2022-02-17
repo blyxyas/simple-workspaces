@@ -47,7 +47,6 @@ with open(f"{ws_path}/workspaces", 'r') as f:
             if line[0] == "@":
                 works = ws(line[1:], [])
                 workspaces.append(works)
-                wsIDS.append(line[1:])
             elif len(workspaces) != 0:
                 workspaces[-1].addcommand(line)
             else:
@@ -65,17 +64,17 @@ if arg in arguments:
         print("\033[1m<======= End of Workspaces =======>\033[0m")
 
     elif arg == "add":
-        to_add = ws(input("Workspace ID: "), [])
+        to_add = ws(int(input("Workspace ID: ")), [])
         # Check if the workspace already exists
-        if exists(to_add.ID, workspaces) == False:
-            print("\033[31mWorkspace already exists!\033[0m")
+        
+        if index(workspaces, to_add.ID) != None:
+            print("Workspace already exists")
             exit()
 
         workspaces.append(to_add)
-        wsIDS.append(to_add.ID)
 
-        print(f"Workspace {to_add.ID} added")
         save(workspaces, ws_path)
+        print(f"Workspace {to_add.ID} added")
 
     elif arg == "remove":
 
@@ -97,13 +96,12 @@ if arg in arguments:
             os.system(command)
 
     elif arg == "addcommand":
-
         if len(argv) < 4:
             print("\033[31mError: No workspace ID specified\n\nsimple-workspaces addcommand <Workspace ID>\033[0m")
             exit()
 
         ws_id = argv[3]
-        ws_index = workspaces.index(ws_id)
+        ws_index = findindex(ws_id, ws)
         command = input("Command: ")
         workspaces[ws_index].addcommand(command)
 
