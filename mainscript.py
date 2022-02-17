@@ -45,8 +45,9 @@ with open(f"{ws_path}/workspaces", 'r') as f:
         else:
             print(line[0], line)
             if line[0] == "@":
-                works = ws(line[1:], [])
+                works = ws(int(line[1:2]), [])
                 workspaces.append(works)
+                print(workspaces)
             elif len(workspaces) != 0:
                 workspaces[-1].addcommand(line)
             else:
@@ -82,7 +83,7 @@ if arg in arguments:
             print("\033[31mWorkspace ID not provided\n\nsimple-workspace remove <Workspace ID>\033[0m")
             exit()
 
-        ws_id = int(argv[3][:1])
+        ws_id = int(argv[3])
         idx = index(workspaces, ws_id)
         if idx == None:
             print("Workspace not found")
@@ -106,10 +107,16 @@ if arg in arguments:
             print("\033[31mError: No workspace ID specified\n\nsimple-workspaces addcommand <Workspace ID>\033[0m")
             exit()
 
-        ws_id = argv[3]
-        ws_index = findindex(ws_id, ws)
+        ws_id = int(argv[3])
+        print(workspaces, ws_id)
+        ws_index = index(workspaces, ws_id)
+        if ws_index == None:
+            print("Workspace not found")
+            exit()
+
         command = input("Command: ")
         workspaces[ws_index].addcommand(command)
+        save(workspaces, ws_path)
 
     elif arg == "removecommand":
         # removecommand need 3 arguments: removecommand, workspace id, command id

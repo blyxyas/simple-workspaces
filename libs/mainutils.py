@@ -57,7 +57,7 @@ def save(wss: list[ws], ws_path: str):
 
 def index(wss: list[ws], ws_id: int):
     for i, ws in enumerate(wss):
-        if int(ws.ID) == ws_id:
+        if ws.ID == ws_id:
             return i
     return None
 
