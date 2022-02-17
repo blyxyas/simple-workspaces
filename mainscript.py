@@ -82,8 +82,14 @@ if arg in arguments:
             print("\033[31mWorkspace ID not provided\n\nsimple-workspace remove <Workspace ID>\033[0m")
             exit()
 
-        ws_id = argv[3]
-        remove(ws_id, workspaces, wsIDS)
+        ws_id = int(argv[3][:1])
+        idx = index(workspaces, ws_id)
+        if idx == None:
+            print("Workspace not found")
+            exit()
+        del workspaces[idx]
+        save(workspaces, ws_path)
+        
     
     elif arg == "load":
         if len(argv) < 4:
