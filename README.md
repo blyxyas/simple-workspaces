@@ -1,6 +1,6 @@
 # simple-workspaces
 
-simple-workspaces is a lightweight CLI tool to change between workspaces. **What is a workspace?** With a workspace you can quicly execute various commands. With simple-workspaces you can have unlimited light workspaces, which you can add, remove or modify with the CLI tool or manually, in the file.
+simple-workspaces is a lightweight CLI tool to change between workspaces. **What is a workspace?** A workspace is a list of commands easily available in just one command. With simple-workspaces you can have unlimited light workspaces, which you can add, remove or modify with the CLI tool or manually, in the file.
 
 # Installation
 
