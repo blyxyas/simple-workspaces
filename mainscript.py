@@ -43,13 +43,11 @@ with open(f"{ws_path}/workspaces", 'r') as f:
         if line[0] == "#" or line[0] == "\n":
             continue
         else:
-            print(line[0], line)
             if line[0] == "@":
                 works = ws(int(line[1:-1]), [])
                 workspaces.append(works)
-                print(workspaces)
             elif len(workspaces) != 0:
-                workspaces[-1].addcommand(line)
+                workspaces[-1].addcommand(line[:-1])
             else:
                 continue
 
@@ -62,13 +60,14 @@ if arg in arguments:
         # Check if the workspace already exists
         
         if index(workspaces, to_add.ID) != None:
-            print("Workspace already exists")
+            print("\033[95mWorkspace already exists\033[0m")
             exit()
 
         workspaces.append(to_add)
 
         save(workspaces, ws_path)
-        print(f"Workspace {to_add.ID} added")
+        listing(workspaces)
+        print(f"\033[93mWorkspace {to_add.ID} added\033[0m")
         exit()
 
     elif arg == "remove":
@@ -83,10 +82,13 @@ if arg in arguments:
             panic()
 
         listing(workspaces, workspaces[idx])
-        yn = input("Are you sure? (y/n)").lower()
+        yn = input("Are you sure? (y/n)").lower()[0]
+        print(yn)
         if yn == "y":
             del workspaces[idx]
             save(workspaces, ws_path)
+            print("\033[93mWorkspace removed\033[0m")
+            exit()
         print("Aborted")
         exit()
     
@@ -95,9 +97,9 @@ if arg in arguments:
             print("\033[31mError: No workspace ID given\n\nsimple-workspace load <Workspace ID>\033[0m")
             exit()
 
-        ws_id = argv[3]
-        ws_index = workspaces.index(ws_id)
-        for command in workspaces[ws_index]:
+        ws_id = int(argv[3])
+        ws_index = index(workspaces, ws_id)
+        for command in workspaces[ws_index].commands:
             os.system(command)
         exit()
 
@@ -117,6 +119,7 @@ if arg in arguments:
         command = input("Command: ")
         ws.addcommand(command)
         save(workspaces, ws_path)
+        print("\033[93mCommand added: \033[0m", command)
         exit()
 
     elif arg == "removecommand":
@@ -134,12 +137,11 @@ if arg in arguments:
         ws = workspaces[ws_index]
         listing(workspaces, ws)
 
-        for i, command in enumerate(ws.commands):
-            print(f"{i} {command}")
         to_remove = int(input("Command ID to remove: "))
 
         ws.commands.pop(to_remove)
         save(workspaces, ws_path)
+        listing(workspaces, ws)
         exit()
 
     # TODO Uninstall

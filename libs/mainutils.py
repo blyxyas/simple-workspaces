@@ -10,6 +10,7 @@ class ws:
     def addcommand(self,
     newcommand: str):
         self.commands.append(newcommand)
+
     
     def removecommand(self,
     command: Union[str, int]):
@@ -17,12 +18,6 @@ class ws:
             self.commands.remove(command)
         elif isinstance(command, int):
             self.commands.pop(command)
-
-    def list(self):
-        print("\033[1m<======= Commands of Workspace: {}=======>\033[0m") 
-        for command in self.commands:
-            print(f"{command}")
-        print("\033[1m<======= End of Commands =======>\033[0m")
 
     def load(self):
         for command in self.commands:
@@ -53,7 +48,6 @@ def save(wss: list[ws], ws_path: str):
     with open(f"{ws_path}/workspaces", 'w') as f:
         f.write("{}\n".format('\n'.join(to_write)))
         f.close()
-    os.system(f"cat {ws_path}/workspaces")
 
 def index(wss: list[ws], ws_id: int):
     for i, ws in enumerate(wss):
@@ -66,19 +60,21 @@ def panic():
     exit()
 
 def listing(workspaces: list[ws], workspace: Optional[ws] = None):
-    print("\033[1m<======= Workspaces =======>\033[0m")
-
     if workspace != None:
-        print(f"\n\033[34m<=== Workspace: {ws.ID} ===>\033[0m\n")
-        for i, command in enumerate(ws.commands):
+        print(f"\n\033[34m<=== Workspace: {workspace.ID} ===>\033[0m\n")
+        for i, command in enumerate(workspace.commands):
             print(f"\033[93m{i}\033[0m {command}")
         return
 
-    for ws in workspaces:
-        print(f"\n\033[34m<=== Workspace: {ws.ID} ===>\033[0m\n")
-        for i, command in enumerate(ws.commands):
-            print(f"\033[93m{i}\033[0m {command}")
+    if len(workspaces) > 0:
+        print("\033[1m<======= Workspaces =======>\033[0m")
+        for ws in workspaces:
+            print(f"\n\033[34m<=== Workspace: {ws.ID} ===>\033[0m\n")
+            for i, command in enumerate(ws.commands):
+                print(f"\033[93m{i}\033[0m {command}")
 
-    print("\n\033[1m<======= End of Workspaces =======>\033[0m")
+        print("\n\033[1m<======= End of Workspaces =======>\033[0m")
+    else:
+        print("\033[91mNo workspaces found\033[0m")
 
 helpmessage = "\033[93mSimple Workspaces\033[0m\nSimple Workspaces is a simple workspace manager.\nIt allows you to create workspaces and save them in a file\nYou can load them in the terminal at any moment.\nJust add some commands to a workspace and you're done! Use it whenever you want!\nUsage:\n\n==> simple-workspace \033[94m\033[1mload\033[1m\033[95m[Workspace ID]\033[0m\nOpens a workspace with the given id\n\n==> simple-workspace \033[1m\033[94mhelp | -h | --help | ?\033[0m\nShows this help message\n\n==> simple-workspace \033[1m\033[94maddcommand \033[93m[Workspace ID] \033[95m[command]\033[0m\nAdds a command to the workspace with the given id.\n\n==> simple-workspace \033[1m\033[94mremovecommand \033[93m[Workspace ID] \033[95m[Command]\033[0m\nRemoves a command with the given id from the workspace with the given id.\n\n==> simple-workspace \033[1m\033[94mlist\033[0m\nLists all the workspaces.\n\n==> simple-workspace \033[1m\033[94mlistcommands \033[93m[Workspace ID]\033[0m\n\n==> simple-workspace \033[1m\033[94mremove \033[93m[Workspace ID]\033[0m nRemoves the workspace with the given id\n\nYou can manually edit the file to \033[1m\033[94madd / edit / remove\033[0m workspaces, you can add comments with '#', but if you want to modify the workspaces using the program, the comments will be removed."
