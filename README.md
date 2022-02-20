@@ -26,14 +26,6 @@ If one of the paths doesn't exists, then the script will create it. Probably you
 
 **Installed**, now read carefully, you can delete / move this directory **if** the workspaces path isn't in it. **If the workspaces path is in the directory, do not delete it**
 
-# Uninstallation
-
-To uninstall simple-workspaces, just use `simple-workspaces uninstall`, this will remove the following things:
-
-* The binary
-* The `workspaces` file in the workspaces path, it will not remove the directory with the workspaces, however, it'll output the directory path if you want to delete it manually.
-* The `~/.config/simple-workspaces/` directory
-
 # Usage
 
 Using simple-workspaces is very easy, you can see the integrated help with `simple-workspaces help` or with `simple-workspaces *` being `*` any command not registered. The commands are:
